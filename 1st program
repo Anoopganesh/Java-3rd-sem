@@ -1,0 +1,156 @@
+*class-1**(copy from next ln)
+package com.example.prog1annotation;
+
+public class Customer {
+	private String name, address;
+	private Ticket ticket;
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public Ticket getTicket() {
+		return ticket;
+	}
+	public void setTicket(Ticket ticket) {
+		this.ticket = ticket;
+	}
+	
+	
+	
+}
+
+
+**class-2**(copy from next ln)
+package com.example.prog1annotation;
+
+public class Ticket {
+	private int ticno, price, seatno;
+	private String tictype;
+	public int getTicno() {
+		return ticno;
+	}
+	public void setTicno(int ticno) {
+		this.ticno = ticno;
+	}
+	public int getPrice() {
+		return price;
+	}
+	public void setPrice(int price) {
+		this.price = price;
+	}
+	public int getSeatno() {
+		return seatno;
+	}
+	public void setSeatno(int seatno) {
+		this.seatno = seatno;
+	}
+	public String getTictype() {
+		return tictype;
+	}
+	public void setTictype(String tictype) {
+		this.tictype = tictype;
+	}
+	
+	
+}
+
+
+**class-3**(copy from next ln)
+package com.example.prog1annotation;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+
+@Configuration
+public class AppConfig {
+	
+	
+	@Bean
+	@Scope("prototype")
+	Customer getCustomer() {
+		Customer c = new Customer();
+		c.setTicket(getTicket());
+		return c;
+	}
+	
+	@Bean
+	@Scope("singleton")
+	Ticket getTicket() {
+		return new Ticket();
+	}
+}
+
+
+***main program***(copy from next ln)
+package com.example.prog1annotation;
+
+import java.util.Scanner;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+@SpringBootApplication
+public class Prog1AnnotationApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(Prog1AnnotationApplication.class, args);
+		AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
+		
+		Customer c = ac.getBean(Customer.class);
+		Ticket t = ac.getBean(Ticket.class);
+		
+		Scanner sc = new Scanner(System.in);
+		
+		while(true) {
+			System.out.println("1. insert the details\n "
+					+ "2. Display details \n"
+					+ "3. exit");
+			System.out.println("enter the choice");
+			int a = sc.nextInt();
+			
+			switch(a) {
+				case 1:
+					System.out.println("enter the customer name");
+					c.setName(sc.next());
+					System.out.println("enter the customer address");
+					c.setAddress(sc.next());
+					System.out.println("enter the ticket number");
+					t.setTicno(sc.nextInt());
+					System.out.println("enter the ticket seat no");
+					t.setSeatno(sc.nextInt());
+					System.out.println("enter the ticket price");
+					t.setPrice(sc.nextInt());
+					System.out.println("enter the ticket Type - economic/gold/platinum");
+					t.setTictype(sc.next());
+					
+					System.out.println("thanks for input");
+					break;
+				case 2:
+					System.out.println("Customer Details:");
+					System.out.println("Name:"+c.getName()+" "+" Address:"+c.getAddress());
+					System.out.println("Ticket Details");
+					t = c.getTicket();
+					System.out.println("Ticket No: "+t.getTicno());
+					System.out.println("Ticket Type: "+t.getTictype());
+					 System.out.println("Ticket Seat No: "+t.getSeatno());
+					System.out.println("Ticket Price: "+t.getPrice());
+					break;
+				case 3:
+					System.exit(0);
+			 }
+			
+		}
+		
+	}
+
+}
