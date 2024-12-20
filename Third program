@@ -97,3 +97,10 @@ public class BookController {
 	 }
 	 
 }
+****json format for postman***
+{
+    "id":1,
+    "author": "Anup Ganesh",
+    "year": 2020,
+    "title": "MCA"
+}
