@@ -122,3 +122,15 @@ public class Product {
 	}
 	
 }
+
+
+POSTMAN
+Postman
+
+
+{
+   "id":1,
+    "price": 120,
+    "name":"Laptop New"
+
+}
